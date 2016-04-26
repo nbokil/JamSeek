@@ -1,86 +1,34 @@
 $(document).ready(function() {
 
-//------------------------------GROCERY LIST CRUD FUNCTIONALITY-------------------------------------------
+//------------------------------SONGS FUNCTIONALITY-------------------------------------------
 
-	//show all items in grocery list when user loads / is on the grocery page
+	//Create functionality for songs
+	$('#requestSong').submit(addSong);
+
+	//show a user's songs when they are on the song page
 	$.ajax({
-			url: './groceries',
-			success:function(result) {
-				$('#allItems').html(result);
-			}
-		});
-
-	//CRUD functionality for grocery lists
-	$('#new').submit(addItem);
-	$('#find').on('click', findItem);
-	$('#update').submit(updateItem);
-	$('input[type="button"]').on('click', deleteItem);
-
-	function addItem(event) {
-		var item_name = $('#new input')[0].value;
-		var quant = $('#new input')[1].value;
-		$.ajax({
-			url: './groceries',
-			type: 'PUT',
-			data: { name: item_name, quantity: quant },
-			success: function(result) {
-				console.log("Successfully added item to grocery list!");
-				window.location.reload(true);
-			}
-		});
-		event.preventDefault();
-	}
-
-	function findItem(event) {
-		var item_name = $('#custom-search-input input')[0].value;
-		$.ajax({
-			url: './groceries',
+			url: './songs',
 			type: 'GET',
-			data: { name: item_name },
-			success: function(result) {
-				console.log("Successfully found item!");
-				$('#founditem').html(result);
-			},
-			error: function(response, status) {
-				$('#founditem').html('<p>Item not found, please try another search!</p>');
+			success:function(result) {
+				$('#mysongs').html(result);
 			}
 		});
-		event.preventDefault();
-	}
 
-	function updateItem(event) {
-		console.log("update Item called");
-		var item_name = $('#update input')[0].value;
-		var quant = $('#update input')[1].value;
+	function addSong(event) {
+		var genre = $('#requestSong input')[0].value;
+		var lyrics = $('#requestSong input')[1].value;
+		var tempo = $('#requestSong input')[2].value;
+		var location = $('#requestSong input')[3].value;
+		var date = $('#requestSong input')[4].value;
+		var answer = null;
 		$.ajax({
-			url: './groceries',
-			type: 'POST',
-			data: { filter: item_name, update: quant },
+			url: './songs',
+			type: 'PUT',
+			data: { genre: genre, lyrics: lyrics, tempo: tempo, location: location, date: date, answer: answer },
 			success: function(result) {
-				console.log("Successfully updated item in grocery list!");
-				window.location.reload(true);
+				$('#success').html(result);
 			}
 		});
-		event.preventDefault();
-	}
-
-	function deleteItem() {
-		//go through 'td' elements to find name of item in the row
-		var item_name = $(this).closest('tr td').prev('td').prev('td').prev('td').text();
-		//remove any line breaks from item_name
-		item_name = item_name.replace(/\s{2,}/g, '');
-		item_name = item_name.replace(/\t/g, '');
-		item_name = item_name.replace(/(\r\n|\n|\r)/g,"");
-		$.ajax({
-			url: './groceries',
-			type: 'DELETE',
-			data: { name: item_name },
-			success:function(result){
-				console.log("Successfully deleted item");
-				window.location.reload(true);
-			}
-		});
-		event.preventDefault();
 	}
 
 //-----------------------------USER LOGIN AND REGISTRATION CR FUNCTIONALITY----------------------------------------
@@ -88,6 +36,15 @@ $(document).ready(function() {
 	//CR functionality for users
 	$('#login').submit(login_user); //read logged in user
 	$('#register').submit(new_user); //create new user
+
+	//show leaderboard when user loads / is on the home page
+	$.ajax({
+			url: './allusers',
+			type: 'GET',
+			success:function(result) {
+				$('#leaderboard').html(result);
+			}
+		});
 
 	function login_user(event) {
 		var user_name = $('#login input')[0].value;
@@ -129,6 +86,32 @@ $(document).ready(function() {
 		});
 		event.preventDefault();
 	}
+
+//------------------------------GAMEPLAY FUNCTIONALITY-------------------------------------------
+
+	$('#next').on('click', gamePlay);
+
+	function gamePlay() {
+		console.log('here');
+		$('#game').html('');
+		var game_display = '<center>'
+		$('#game').append(game_display);
+		$.ajax({
+			url: './rand_song',
+			type: 'GET',
+			success: function(result) {
+				$('#game').append(result);
+			},
+			error: function(response, status) {
+				alert("Game currently not functioning. We are sorry for the inconvenience!");
+			}
+		});
+	}
+
+
+
+
+
 
 //------------------------------YUMMLY API CALL-------------------------------------------
 

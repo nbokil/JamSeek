@@ -59,6 +59,45 @@ exports.create = function(collection, data, callback) {
     });
 }
 
+exports.retrieveAll = function(collection, callback) {
+  mongoDB.collection(collection).find().sort( { points: -1, username: 1 }).toArray(function(err, docs) {
+    if (err) doError(err);
+    // docs are MongoDB documents, returned as an array of JavaScript objects
+    // Use the callback provided by the controller to send back the docs.
+    callback(docs);
+  });
+}
+
+//retrieve random song for gameplay that is not a song requested by current user
+exports.retrieveSong = function(collection, query, callback) {
+  var count = mongoDB.collection(collection).count({$and: [{username: {$ne: query.user}}, {answer: ''}]});
+  count.then(
+    function(value) {
+      var rand = Math.floor( Math.random() * value);
+      var song = mongoDB.collection(collection).find( {$and: [{username: {$ne: query.user}}, {answer: ''}]} ).limit(-1).skip(rand).toArray();
+      song.then(
+        function(randsong) {
+          callback(randsong);
+        },
+        function(error){
+          //console.log(error);
+        });
+    },
+    function(error) {
+      //console.log(error);
+    } );
+    //.then(function(numItems) {
+      //var rand = function(){return Math.floor( Math.random() * numItems )};
+      //var song = mongoDB.collection(collection).find( {$and: [{username: {$ne: query.user}}, {answer: ''}]} ).limit(-1).skip(rand()).next();
+      //  callback(song);
+    //});
+  //var rand = function(){return Math.floor( Math.random() * count )}
+  //mongoDB.collection(collection).find( {$and: [{username: {$ne: query.user}}, {answer: ''}]} ).limit(-1).toArray(function(err, docs) {
+    //if (err) doError(err);
+    //callback(docs);
+  //});
+}
+
 /********** CRUD Retrieve -> Mongo find ***************************************
  * @param {string} collection - The collection within the database
  * @param {object} query - The query object to search with

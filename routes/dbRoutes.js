@@ -10,10 +10,16 @@ exports.init = function(app) {
   app.get('/game', gameplay); // The gameplay page
   app.get('/request', request); //The request song page
   app.get('/song', song); //The songs page that displays your songs
+
+  //Retrieve all users for leaderboard
+  app.get('/allusers', retrieveUsers); //CRUD Retrieve ALL
+
+  //Retrieve random song for gameplay
+  app.get('/rand_song', randSong);
     
   // The collection parameter maps directly to the mongoDB collection
   app.put('/:collection', doCreate); // CRUD Create
-  app.get('/:collection', doRetrieve); // CRUD Retrieve
+  app.get('/:collection', doRetrieve); // CRUD Retrieve for single user
   app.post('/:collection', doUpdate); // CRUD Update
   app.delete('/:collection', doDelete); // CRUD Delete 
 }
@@ -109,8 +115,8 @@ doCreate = function(req, res){
    *    is successful, a callback function is provided for the model to 
    *    call in the future whenever the create has completed.
    */
-  if (req.params.collection == "groceries") {
-    /* add current user in session as attribute to in document */
+  if (req.params.collection == "songs") {
+    /* add current user in session as attribute to document */
     req.body.username = req.session.user;
   }
   mongoModel.create ( req.params.collection, 
@@ -118,8 +124,43 @@ doCreate = function(req, res){
                       function(result) {
                         // result equal to true means create was successful
                         var success = (result ? "Create successful" : "Create unsuccessful");
-                        res.render('message', {title: 'Mongo Demo', obj: success});
+                        if (req.params.collection == "songs") {
+                          res.render('message', {obj: "Your song has successfully been entered for gameplay!"});
+                        }
+                        else {
+                          res.render('message', {obj: success});
+                        }
                       });
+}
+
+retrieveUsers = function(req, res){
+  mongoModel.retrieveAll(
+    "users",
+    function(modelData) {
+      if (modelData.length) {
+        res.render('leaderboard_results', {obj: modelData});
+      }
+      else {
+        var message = "No search results found. Please try again!";
+        res.render('message', {obj: message});
+      }
+  });
+}
+
+randSong = function(req, res) {
+  req.query.user = req.session.user;
+  mongoModel.retrieveSong(
+    "songs",
+    req.query,
+    function(modelData) {
+      if (modelData.length) {
+        res.render('display_rand_song', {obj: modelData});
+      }
+      else {
+        var message = "Game currently not functioning. We are sorry for the inconvenience!";
+        res.render('message', {obj: message});
+      }
+    });
 }
 
 /********** CRUD Retrieve (or Read) *******************************************
@@ -138,7 +179,7 @@ doRetrieve = function(req, res){
    *    model once the retrieve has been successful.
    * modelData is an array of objects returned as a result of the Retrieve
    */
-  if (req.params.collection == "groceries") {
+  if (req.params.collection == "songs") {
     /* add current user in session as attribute to search for in document */
     req.query.username = req.session.user;
   }
@@ -152,8 +193,8 @@ doRetrieve = function(req, res){
           req.session.user = req.query.username;
           res.render('user_results',{obj: modelData});
         }
-        else if (req.params.collection == "groceries") {
-          res.render('grocery_results',{obj: modelData});
+        else if (req.params.collection == "songs") {
+          res.render('mysongs_results',{obj: modelData});
         }
       } 
       else {

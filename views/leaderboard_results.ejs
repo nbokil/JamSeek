@@ -1,0 +1,21 @@
+<div class="table-responsive">
+	<table class="table">
+		<tr>
+			<th>User</th>
+			<th>Points</th>
+		</tr>
+		<% if (obj.length) { %>
+			<% for(var i = 0; i < obj.length; i++) { %>
+			    <% var user = obj[i]%>
+			    <tr>
+			    	<td>
+			    		<%= user.username %>
+			    	</td>
+			    	<td>
+			    		<%= user.points %>
+			    	</td>
+			    </tr>
+			<% }; %>
+		<% } %>
+	</table>
+</div>

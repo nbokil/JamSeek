@@ -1,0 +1,101 @@
+<div class="col-md-12">
+  <h2>Requested Songs</h2>
+  	<div class="table-responsive">
+		<table class="table">
+			<tr>
+				<th></th>
+				<th>Genre</th>
+				<th>Tempo</th>
+				<th>Lyrics</th>
+				<th>Location</th>
+				<th>Check</th>
+			</tr>
+			<% if (obj.length) { %>
+				<% for(var i = 0; i < obj.length; i++) { %>
+					<% var song = obj[i]%>
+					<% if (song.answer == false) { %>
+					    <tr>
+					    	<td>
+					    		<%= i+1 %>
+					    	</td>
+					    	<td>
+					    		<%= song.genre %>
+					    	</td>
+					    	<td>
+					    		<%= song.tempo %>
+					    	</td>
+					    	<td>
+					    		<%= song.lyrics %>
+					    	</td>
+					    	<td>
+					    		<%= song.location %>
+					    	</td>
+					    	<td>
+					    		<input type="button" class="btn btn-primary" value="Check Answers" >
+					    	</td>
+					    </tr>
+					<% } %>
+				<% }; %>
+			<% } %>
+		</table>
+	</div>
+</div>
+
+<div class="col-md-12">
+  <h2>Answered Songs</h2>
+  	<div class="table-responsive">
+		<table class="table">
+			<tr>
+				<th></th>
+				<th>Genre</th>
+				<th>Tempo</th>
+				<th>Check</th>
+			</tr>
+			<% if (obj.length) { %>
+				<% for(var i = 0; i < obj.length; i++) { %>
+					<% var song = obj[i]%>
+					<% if (song.answer == true) { %>
+					    <tr>
+					    	<td>
+					    		<%= i+1 %>
+					    	</td>
+					    	<td>
+					    		<%= song.genre %>
+					    	</td>
+					    	<td>
+					    		<%= song.tempo %>
+					    	</td>
+					    	<td>
+					    		<input type="button" class="btn btn-primary" value="Check Answers" >
+					    	</td>
+					    </tr>
+					<% } %>
+				<% }; %>
+			<% } %>
+		</table>
+	</div>
+</div>
+
+<!-- script to delete item, does not work if placed in application.js -->
+<script>
+	$('input[type="button"]').on('click', deleteItem);
+
+	function deleteItem() {
+		//go through 'td' elements to find name of item in the row
+		var item_name = $(this).closest('tr td').prev('td').prev('td').prev('td').text();
+		//remove any line breaks from item_name
+		item_name = item_name.replace(/\s{2,}/g, '');
+		item_name = item_name.replace(/\t/g, '');
+		item_name = item_name.replace(/(\r\n|\n|\r)/g,"");
+		$.ajax({
+			url: './groceries',
+			type: 'DELETE',
+			data: { name: item_name },
+			success:function(result){
+				console.log("Successfully deleted item");
+				window.location.reload(true);
+			}
+		});
+		event.preventDefault();
+	}
+</script>
