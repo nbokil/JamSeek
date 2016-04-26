@@ -245,3 +245,26 @@ footer p {
 #welcome a {
     color: #a8a8a8;
 }
+
+select option {
+    background-color: #e6e6ff;
+}
+
+.radio-button-one-line {
+  float: left;
+  clear: none;
+}
+
+label {
+  float: left;
+  clear: none;
+  display: block;
+  padding: 2px 1em 0 0;
+}
+
+input[type=radio],
+input.radio {
+  float: left;
+  clear: none;
+  margin: 2px 0 0 2px;
+}

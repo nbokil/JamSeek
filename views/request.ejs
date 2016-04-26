@@ -17,17 +17,47 @@
                   <center>
                     <div id="success"></div>
                     <form id="requestSong">
-                      <input type="text" id="genre" placeholder="Genre: Rap, Pop, Jazz, etc."></input>
+                      <select required>
+                        <option val="">Choose genre:</option>
+                        <option value="blues">Blues</option>
+                        <option value="country">Country</option>
+                        <option value="edm">EDM</option>
+                        <option value="rap">Rap</option>
+                        <option value="pop">Pop</option>
+                        <option value="rb">R&B</option>
+                        <option value="alternative">Alternative</option>
+                        <option value="rock">Rock</option>
+                        <option value="unknown">Unknown</option>
+                      </select>                      
                       <br><br>
                       <input type="text" id="lyrics" placeholder="Lyrics from song"></input>
                       <br><br>
-                      <input type="text" id="tempo" placeholder="Tempo: Fast, Slow"></input>
+                      <p>Choose a speed:</p>
+                      <div class="radio-button-one-line">
+                        <input type="radio" class="radio" name="fast" value="w" id="w" />
+                          <label for="w">Fast</label>
+                        <input type="radio" class="radio" name="medium" value="y" id="y" />
+                          <label for="y">Medium</label>
+                        <input type="radio" class="radio" name="slow" value="z" id="z" />
+                          <label for="z">Slow</label>
+                      </div>
                       <br><br>
                       <input type="text" id="location" placeholder="Where did you hear it? Radio, Mall, etc."></input>
                       <br><br>
-                      <input type="date" id="date" placeholder="When did you hear it?"></input>
+                      <select required>
+                        <option value="">How old is this song?</option>
+                        <option value="this-year">This year</option>
+                        <option value="last-few-years">Within last few years</option>
+                        <option value="more-10-years">10+ years ago</option>
+                        <option value="unknown">Unknown</option>
+                      </select>  
                       <br><br>
-                      <p>Insert more form fields here</p>
+                      <p>Where did you hear it? </p>
+                      <input type="text" id="location" placeholder="Radio, Mall, etc."></input>
+                      <br><br>
+                      <p>Any other unique features? </p>
+                      <input type="text" id="extras" placeholder="Bass drop, a meaning etc."></input>
+                      <br><br>
                       <input type="submit" value="Enter Song" class="btn btn-primary">
                     </form>
                   </center>
