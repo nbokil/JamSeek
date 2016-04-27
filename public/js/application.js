@@ -15,16 +15,17 @@ $(document).ready(function() {
 		});
 
 	function addSong(event) {
-		var genre = $('#requestSong input')[0].value;
-		var lyrics = $('#requestSong input')[1].value;
-		var tempo = $('#requestSong input')[2].value;
-		var location = $('#requestSong input')[3].value;
-		var date = $('#requestSong input')[4].value;
+		var genre = $('#genre').val();
+		var lyrics = $('#lyrics').val();
+		var tempo = $('input[type="radio"][name="speed"]:checked').val();
+		var age = $('#age').val();
+		var location = $('#location').val();
+		var extras = $('#extras').val();
 		var answer = null;
 		$.ajax({
 			url: './songs',
 			type: 'PUT',
-			data: { genre: genre, lyrics: lyrics, tempo: tempo, location: location, date: date, answer: answer },
+			data: { genre: genre, lyrics: lyrics, tempo: tempo, age: age, location: location, extras: extras, answer: answer },
 			success: function(result) {
 				$('#success').html(result);
 			}
@@ -90,9 +91,9 @@ $(document).ready(function() {
 //------------------------------GAMEPLAY FUNCTIONALITY-------------------------------------------
 
 	$('#next').on('click', gamePlay);
+	$('#answerSong').submit(answerSong);
 
 	function gamePlay() {
-		console.log('here');
 		$('#game').html('');
 		var game_display = '<center>'
 		$('#game').append(game_display);
@@ -103,9 +104,30 @@ $(document).ready(function() {
 				$('#game').append(result);
 			},
 			error: function(response, status) {
+				console.log(response);
 				alert("Game currently not functioning. We are sorry for the inconvenience!");
 			}
 		});
+	}
+
+	function answerSong(event) {
+		event.preventDefault();
+		var song = $('#answerSong input')[0].value;
+		var user = $('#hiddenuser input')[0].value;
+		if (song == "") {
+			gamePlay();
+		}
+		else {
+			$.ajax({
+				url: './answers',
+				type: 'PUT',
+				data: { requested_by: user, answer: song },
+				success: function(result) {
+					gamePlay();
+					$('#name').val("");
+				}
+			});
+		}
 	}
 
 

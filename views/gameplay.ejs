@@ -20,10 +20,20 @@
                         <hr>
                         <center>
                         <p>Look at the attributes provided and try to identify the song. The more songs
-                            you can correcly identify, the more points you will recieve.</p>
+                            you can correcly identify, the more points you will recieve. If you think you know the song,
+                            enter an answer and click Guess. Otherwise hit Next to skip to another song. Good luck!</p>
+
                         </center>
                     </div>
-                    <button id='next'>Next</button>
+                    <center>
+                        <form id="answerSong">
+                            <input type="text" id="name" placeholder="Guess"></input>
+                            <br><br>
+                            <input type="submit" value="Guess" class="btn btn-primary">
+                        </form>
+                    </center>
+                    <br>
+                    <button id='next'>Skip</button>
                 </div>
             </div>
         </div>

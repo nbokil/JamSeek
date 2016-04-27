@@ -80,22 +80,13 @@ exports.retrieveSong = function(collection, query, callback) {
           callback(randsong);
         },
         function(error){
-          //console.log(error);
+          console.log(error);
         });
     },
     function(error) {
-      //console.log(error);
-    } );
-    //.then(function(numItems) {
-      //var rand = function(){return Math.floor( Math.random() * numItems )};
-      //var song = mongoDB.collection(collection).find( {$and: [{username: {$ne: query.user}}, {answer: ''}]} ).limit(-1).skip(rand()).next();
-      //  callback(song);
-    //});
-  //var rand = function(){return Math.floor( Math.random() * count )}
-  //mongoDB.collection(collection).find( {$and: [{username: {$ne: query.user}}, {answer: ''}]} ).limit(-1).toArray(function(err, docs) {
-    //if (err) doError(err);
-    //callback(docs);
-  //});
+      console.log(error);
+    }
+  );
 }
 
 /********** CRUD Retrieve -> Mongo find ***************************************

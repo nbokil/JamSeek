@@ -12,12 +12,16 @@
 	    	<br><br>
 	    	Tempo: <%= song.tempo %>
 	    	<br><br>
-	    	Where it was heard: <%= song.location %>
+	    	How old the song is: <%= song.age %>
 	    	<br><br>
-	    	Day it was heard: <%= song.date %>
+	    	Where the song was heard: <%= song.location %>
+	    	<br><br>
+	    	Extra information about the song <%= song.extras %>
 	    	<br><br>
 	<% }; %>
 <% } %>
 
-
 </center>
+<form id="hiddenuser">
+	<input type="hidden" id="user" value=<%=song.username%> >
+</form>

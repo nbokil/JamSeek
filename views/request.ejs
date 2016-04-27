@@ -17,7 +17,7 @@
                   <center>
                     <div id="success"></div>
                     <form id="requestSong">
-                      <select required>
+                      <select id="genre" required>
                         <option val="">Choose genre:</option>
                         <option value="blues">Blues</option>
                         <option value="country">Country</option>
@@ -33,11 +33,11 @@
                       <input type="text" id="lyrics" placeholder="Lyrics from song"></input>
                       <br><br>
                       <p>Choose a speed:</p>
-                        <input type="radio" name="speed" value="fast">Fast<br>
-                        <input type="radio" name="speed" value="medium">Medium<br>
-                        <input type="radio" name="speed" value="slow">Slow
+                        <input type="radio" id="speed" name="speed" value="fast">Fast<br>
+                        <input type="radio" id="speed" name="speed" value="medium">Medium<br>
+                        <input type="radio" id="speed" name="speed" value="slow">Slow
                       <br><br>
-                      <select required>
+                      <select id="age" required>
                         <option value="">How old is this song?</option>
                         <option value="this-year">This year</option>
                         <option value="last-few-years">Within last few years</option>

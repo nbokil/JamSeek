@@ -119,6 +119,10 @@ doCreate = function(req, res){
     /* add current user in session as attribute to document */
     req.body.username = req.session.user;
   }
+  if (req.params.collection == "answers") {
+    /* add current user in session as attribute to document */
+    req.body.answered_by = req.session.user;
+  }
   mongoModel.create ( req.params.collection, 
                       req.body,
                       function(result) {
@@ -126,6 +130,9 @@ doCreate = function(req, res){
                         var success = (result ? "Create successful" : "Create unsuccessful");
                         if (req.params.collection == "songs") {
                           res.render('message', {obj: "Your song has successfully been entered for gameplay!"});
+                        }
+                        else if (req.params.collection == "answers") {
+                          res.render('message', {obj: "Your song was answered!"});
                         }
                         else {
                           res.render('message', {obj: success});
@@ -183,6 +190,10 @@ doRetrieve = function(req, res){
     /* add current user in session as attribute to search for in document */
     req.query.username = req.session.user;
   }
+  if (req.params.collection == "answers") {
+    /* add current user in session as attribute to search for in document */
+    req.query.answered_by = req.session.user;
+  }
   mongoModel.retrieve(
     req.params.collection, 
     req.query,
@@ -195,6 +206,10 @@ doRetrieve = function(req, res){
         }
         else if (req.params.collection == "songs") {
           res.render('mysongs_results',{obj: modelData});
+        }
+        else if (req.params.collection == "answers") {
+          res.render('message', {obj: modelData});
+          console.log(modelData);
         }
       } 
       else {
