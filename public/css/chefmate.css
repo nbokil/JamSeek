@@ -5,8 +5,11 @@
  */
 
 body {
-    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
-    background: url('../img/leftovers.jpg') no-repeat center center fixed;
+    /*font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;*/
+    font-family: "Roboto";
+    /*background: url('../img/leftovers.jpg') no-repeat center center fixed;*/
+    background-color: #173e43;
+
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -34,6 +37,13 @@ p {
 hr {
     max-width: 400px;
     border-color: #999999;
+}
+
+#content {
+    background-color: #3fb0ac;
+    
+    color: white;
+    padding: 10px;
 }
 
 .brand,

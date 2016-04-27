@@ -1,10 +1,34 @@
-<h2 class="intro-text text-center">Ready to get cooking?</h2>
+<script type="text/javascript">
+<!--
+    function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+    }
+//-->
+</script>
+
+
+<div id="content">
+
+<h2 class="intro-text text-center">Ready to get jamming?</h2>
 <p><center><strong>Log in or scroll below to register</center></p>
 <hr>
 <div id='error'></div>
 <!-- FORM TO LOGIN -->
+
+<div class="row">
+<div class="col-sm-12 text-center">
+<button type="button" onclick="toggle_visibility('login_button');" class="btn btn-primary">Log-In</button>
+</div>
+</div>
+
+
+
 <form id="login">
-    <div class="row">
+    <div class="row" id ="login_button" style="display:none">
         <div class="form-group col-lg-6">
             <label>Username</label>
             <input type="text" class="form-control" id="username">
@@ -18,11 +42,20 @@
         </div>
     </div>
 </form>
+
 <hr>
 <!-- FORM TO REGISTER -->
 <h2 class="intro-text text-center">Register Here</h2>
+
+<div class="row">
+<div class="col-sm-12 text-center">
+<button type="button" onclick="toggle_visibility('register_button');" class="btn btn-primary">Register</button>
+</div>
+</div>
+
+
 <form id="register">
-    <div class="row">
+    <div class="row" id="register_button" style="display:none">
         <div class="form-group col-lg-4">
             <label>First Name</label>
             <input type="text" class="form-control" id="firstname">
@@ -44,8 +77,10 @@
             <input type="password" class="form-control" id="password">
         </div>
         <div class="form-group col-lg-12">
-            <input type="submit" class="btn btn-default" value="Register">
+            <input type="submit" class="btn btn-default" value="Submit">
         </div>
     </div>
 </form>
 <hr class="visible-xs">
+
+</div>
