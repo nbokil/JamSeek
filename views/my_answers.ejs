@@ -1,0 +1,28 @@
+<div class="col-md-12">
+  <h2>Answered Songs</h2>
+    <div class="table-responsive">
+    <table class="table">
+      <tr>
+        <th></th>
+        <th>Title</th>
+        <th>Answered By</th>
+      </tr>
+      <% if (obj.length) { %>
+        <% for(var i = 0; i < obj.length; i++) { %>
+          <% var song = obj[i]%>
+              <tr>
+                <td>
+                  <%= i+1 %>
+                </td>
+                <td>
+                  <%= song.answer %>
+                </td>
+                <td>
+                  <%= song.answered_by %>
+                </td>
+              </tr>
+        <% }; %>
+      <% } %>
+    </table>
+  </div>
+</div>

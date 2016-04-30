@@ -291,3 +291,7 @@ input.radio {
         display: none;
     }
 }
+
+audio {
+    float: right;
+}

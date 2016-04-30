@@ -6,7 +6,6 @@ exports.init = function(app) {
   app.get('/', homepage); // The homepage page
   app.get('/home', homepage); // Can be accessed by another url
   app.get('/logout', logout); // Log out user and end session
-  app.get('/about', about); // The about page
   app.get('/game', gameplay); // The gameplay page
   app.get('/request', request); //The request song page
   app.get('/song', song); //The songs page that displays your songs
@@ -21,7 +20,6 @@ exports.init = function(app) {
   app.put('/:collection', doCreate); // CRUD Create
   app.get('/:collection', doRetrieve); // CRUD Retrieve for single user
   app.post('/:collection', doUpdate); // CRUD Update
-  app.delete('/:collection', doDelete); // CRUD Delete 
 }
 
 //------------------------------ROUTE CALLS FOR STATIC PAGES-------------------------------------------
@@ -84,8 +82,6 @@ song = function(req, res) {
     res.render('all_songs', { username: req.session.user } );
   }
 };
-
-
 
 //------------------------------ROUTE CALLS FOR CRUD FUNCTIONATLITY-------------------------------------------
 
@@ -192,7 +188,7 @@ doRetrieve = function(req, res){
   }
   if (req.params.collection == "answers") {
     /* add current user in session as attribute to search for in document */
-    req.query.answered_by = req.session.user;
+    req.query.requested_by = req.session.user;
   }
   mongoModel.retrieve(
     req.params.collection, 
@@ -208,8 +204,7 @@ doRetrieve = function(req, res){
           res.render('mysongs_results',{obj: modelData});
         }
         else if (req.params.collection == "answers") {
-          res.render('message', {obj: modelData});
-          console.log(modelData);
+          res.render('my_answers', {obj: modelData});
         }
       } 
       else {
@@ -255,30 +250,3 @@ doUpdate = function(req, res){
 		                  });
 }
 
-/********** CRUD Delete *******************************************************
- * The delete route handler is left as an exercise for you to define.
- */
-
-doDelete = function(req, res){
-  /*
-   * Call the model Delete with:
-   *  - The collection to Delete from
-   *  - The object to delete in the model, from the request query string
-   *  - As discussed above, an anonymous callback function to be called by the
-   *    model once the delete has been successful.
-   * modelData is an array of objects returned as a result of the Retrieve
-   */
-  if (req.params.collection == "groceries") {
-    /* add current user in session as attribute to in document */
-    req.body.username = req.session.user;
-    console.log(req.body);
-  }
-
-  mongoModel.delete ( req.params.collection, 
-                      req.body,
-                      function(result) {
-                        // result equal to true means delete was successful
-                        var success = (result ? "Delete successful" : "Delete unsuccessful");
-                        res.render('message', {title: 'Mongo Demo', obj: success});
-                      });
-}

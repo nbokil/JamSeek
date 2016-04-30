@@ -46,7 +46,17 @@ exports.create = function(collection, data, callback) {
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(data.password, salt);
     data.password = hash;
+    data.points = 0;
   }
+
+  //If collection is answers, update points for user to display on leaderboard
+  if (collection == "answers") {
+    mongoDB.collection("users").update(
+      {username: data.answered_by},
+      {"$inc": {"points": 10}}
+    );
+  }
+
   // Do an asynchronous insert into the given collection
   mongoDB.collection(collection).insertOne(
     data,                     // the object to be inserted
@@ -161,26 +171,6 @@ exports.update = function(collection, filter, update, callback) {
         callback('Modified '+ status.modifiedCount 
                  +' and added '+ status.upsertedCount+" documents");
         });
-}
-
-/********** CRUD Delete -> Mongo deleteOne **********************
- * @param {string} collection - The collection within the database
- * @param {object} data - The object to delete as a MongoDB document
- * @param {function} callback - Function to call upon delete completion
- *
- * See the API for more information on deleteOne:
- * http://mongodb.github.io/node-mongodb-native/2.0/api/Collection.html#deleteOne
- */
-exports.delete = function(collection, data, callback) {
-  mongoDB.collection(collection).deleteOne(
-    data,                     // the object to be deleted
-    function(err, status) {   // callback upon completion
-      if (err) doError(err);
-      // use the callback function supplied by the controller to pass
-      // back true if successful else false
-      var success = (status.result.ok == 1 ? true : false);
-      callback(success);
-    });
 }
 
 var doError = function(e) {
