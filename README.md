@@ -20,3 +20,7 @@ npm install morgan
 ## License
 
 Unless stated elsewhere, file headers or otherwise, the license as stated in the LICENSE file.
+
+## Demo
+
+http://jamseek-nbokil.rhcloud.com/
